@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BFSI Global Regulatory Compliance Radar</title>
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-theme="dark">
+  <div id="app-container">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-icon">R</div>
+        <div class="logo-text">
+          <h1>BFSI Radar</h1>
+          <span>Compliance Pulse</span>
+        </div>
+      </div>
+      
+      <ul class="sidebar-nav">
+        <li>
+          <div class="nav-item active" data-target="dashboard">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+            Dashboard
+          </div>
+        </li>
+        <li>
+          <div class="nav-item" data-target="radar">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 10 10"/><line x1="12" y1="12" x2="22" y2="12"/><line x1="12" y1="12" x2="12" y2="2"/></svg>
+            Radar Visualizer
+          </div>
+        </li>
+        <li>
+          <div class="nav-item" data-target="database">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
+            Regulatory Grid
+          </div>
+        </li>
+        <li>
+          <div class="nav-item" data-target="assessment">
+            <svg viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+            Self-Assessment
+          </div>
+        </li>
+        <li>
+          <div class="nav-item" data-target="portfolio">
+            <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            My Portfolio
+          </div>
+        </li>
+      </ul>
+      
+      <div class="sidebar-footer">
+        <button class="theme-toggle-btn" id="theme-toggle">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          Toggle Light Mode
+        </button>
+      </div>
+    </aside>
+    
+    <!-- Main Workspace -->
+    <main class="workspace">
+      
+      <!-- Topbar Header -->
+      <header class="topbar">
+        <div class="search-container">
+          <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" class="search-input" id="global-search" placeholder="Search regulations, impacts, or jurisdictions...">
+        </div>
+        
+        <div style="display: flex; align-items: center; gap: 20px;">
+          <div class="header-status-badge">
+            <span class="status-dot"></span>
+            <span>SYSTEM ON: 14 RADAR PLOTS</span>
+          </div>
+          
+          <button class="notification-bell-btn" id="news-bell" title="Latest regulatory updates">
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <span class="bell-badge"></span>
+          </button>
+        </div>
+      </header>
+      
+      <!-- View 1: Dashboard -->
+      <section class="viewport active" id="view-dashboard">
+        <div class="summary-grid">
+          <div class="stat-card">
+            <div class="stat-info">
+              <h3>Tracked Regulations</h3>
+              <div class="stat-value" id="stat-total">0</div>
+              <div class="stat-trend trend-down">Global Scale</div>
+            </div>
+            <div class="stat-icon">
+              <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-info">
+              <h3>Upcoming Enforcement</h3>
+              <div class="stat-value" id="stat-upcoming">0</div>
+              <div class="stat-trend" style="color: var(--color-high);">Next 18 months</div>
+            </div>
+            <div class="stat-icon">
+              <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-info">
+              <h3>Critical Risk Threshold</h3>
+              <div class="stat-value" id="stat-critical">0</div>
+              <div class="stat-trend trend-up">Requires Action</div>
+            </div>
+            <div class="stat-icon">
+              <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-info">
+              <h3>Compliant Quotient</h3>
+              <div class="stat-value" id="stat-average-progress">0%</div>
+              <div class="stat-trend trend-down">Portfolio Metrics</div>
+            </div>
+            <div class="stat-icon">
+              <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+          </div>
+        </div>
+        
+        <div class="dashboard-layout">
+          <!-- Left side: mini radar -->
+          <div>
+            <div class="panel-card" style="position: relative;">
+              <div class="panel-title">
+                Interactive Radar Workspace
+                <span class="view-sub" style="cursor: pointer; color: var(--accent-banking);" id="dashboard-to-radar-link">View Full Screen →</span>
+              </div>
+              <div class="radar-render-container">
+                <svg id="dashboard-mini-radar" class="radar-interactive" viewBox="0 0 600 600"></svg>
+              </div>
+            </div>
+            
+            <div class="micro-chart-container">
+              <div class="chart-bar-card" id="chart-subsector">
+                <div class="chart-bar-header">Regulations by Subsector</div>
+                <div class="chart-bars-list" id="subsector-bars"></div>
+              </div>
+              <div class="chart-bar-card" id="chart-impact">
+                <div class="chart-bar-header">Regulations by Impact Level</div>
+                <div class="chart-bars-list" id="impact-bars"></div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Right side: Recent Feed -->
+          <div class="panel-card" style="height: 100%; margin-bottom: 0;">
+            <div class="panel-title">Recent Regulatory Bulletins</div>
+            <div class="feed-list" id="dashboard-news-feed">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- View 2: Full Radar Visualizer -->
+      <section class="viewport" id="view-radar">
+        <div class="panel-card" style="margin-bottom: 0;">
+          <div class="panel-title">
+            Global BFSI Compliance Radar Screen
+            <div style="font-size: 13px; font-weight: 500; display: flex; gap: 16px; align-items: center;">
+              <span>Hover plots for quick meta. Click dots to expand requirement items.</span>
+            </div>
+          </div>
+          
+          <div class="radar-render-container" style="padding: 20px 0;">
+            <svg id="full-radar-canvas" class="radar-interactive" viewBox="0 0 600 600">
+              <!-- Rendered via JS -->
+            </svg>
+            <div class="radar-tooltip" id="radar-tooltip-el"></div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- View 3: Regulatory Grid -->
+      <section class="viewport" id="view-database">
+        <div class="filter-bar">
+          
+          <div class="filter-select-group">
+            <span class="filter-label">Sector Domain</span>
+            <select class="select-custom" id="filter-sector">
+              <option value="all">All Sectors</option>
+              <option value="banking">Banking Operations</option>
+              <option value="payments">Payments & Fintech</option>
+              <option value="wealth">Asset & Wealth Management</option>
+              <option value="insurance">Insurance (Prudential)</option>
+              <option value="security">Security & Privacy</option>
+            </select>
+          </div>
+          
+          <div class="filter-select-group">
+            <span class="filter-label">Jurisdiction</span>
+            <select class="select-custom" id="filter-jurisdiction">
+              <option value="all">All Jurisdictions</option>
+              <option value="EU">European Union (EU)</option>
+              <option value="US">United States (US)</option>
+              <option value="UK">United Kingdom (UK)</option>
+              <option value="APAC">Asia-Pacific (APAC)</option>
+              <option value="Global">Global Operations</option>
+            </select>
+          </div>
+          
+          <div class="filter-select-group">
+            <span class="filter-label">Severity Level</span>
+            <select class="select-custom" id="filter-impact">
+              <option value="all">All Impact Levels</option>
+              <option value="Critical">Critical</option>
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
+            </select>
+          </div>
+          
+          <div class="filter-select-group">
+            <span class="filter-label">Status</span>
+            <select class="select-custom" id="filter-status">
+              <option value="all">All Statuses</option>
+              <option value="Active">Active</option>
+              <option value="Upcoming">Upcoming</option>
+              <option value="Proposed">Proposed</option>
+            </select>
+          </div>
+          
+          <div class="filter-actions">
+            <button class="btn btn-secondary" id="btn-export-csv" title="Download filtered CSV" style="padding: 10px 14px;">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              CSV
+            </button>
+            <button class="btn btn-secondary" id="btn-export-json" title="Download filtered JSON" style="padding: 10px 14px;">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              JSON
+            </button>
+            <button class="btn btn-secondary" id="btn-reset-filters" style="padding: 10px 14px;">Reset</button>
+          </div>
+        </div>
+        
+        <div class="grid-wrapper">
+          <table class="table-custom" id="regulations-table">
+            <thead>
+              <tr>
+                <th data-sort="name" class="sort-asc">Regulation</th>
+                <th data-sort="sector">Subsector</th>
+                <th data-sort="jurisdiction">Region</th>
+                <th data-sort="status">Compliance Status</th>
+                <th data-sort="impact">Impact</th>
+                <th data-sort="effectiveDate">Effective Date</th>
+                <th style="cursor: default;">Port.</th>
+              </tr>
+            </thead>
+            <tbody id="table-body">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+      
+      <!-- View 4: Self-Assessment Wizard -->
+      <section class="viewport" id="view-assessment">
+        <div class="wizard-box">
+          <div class="panel-card" id="wizard-setup-panel">
+            <div class="panel-title">BFSI Compliance Self-Assessment</div>
+            <p style="margin-bottom: 24px; color: var(--text-secondary); font-size: 14px; line-height: 1.6;">
+              Determine which global banking or payment directives apply to your financial operations. Answer the 4-step survey to generate an actionable custom compliance requirements checklist.
+            </p>
+            
+            <div class="wizard-progress-bar-container">
+              <div class="wizard-progress-fill" id="wizard-progress"></div>
+            </div>
+            
+            <div id="wizard-questions-container">
+              <!-- Rendered via JS -->
+            </div>
+            
+            <div class="wizard-nav-btns">
+              <button class="btn btn-secondary" id="btn-wizard-prev" style="visibility: hidden;">Previous</button>
+              <button class="btn btn-primary" id="btn-wizard-next">Next Step</button>
+            </div>
+          </div>
+          
+          <!-- Results Area -->
+          <div class="panel-card" id="wizard-results-panel" style="display: none;">
+            <div class="panel-title" style="justify-content: space-between;">
+              <span>Your Applicable Compliance Actions</span>
+              <button class="btn btn-secondary" id="btn-wizard-restart" style="padding: 8px 16px; font-size: 13px;">Restart Assessment</button>
+            </div>
+            <p style="margin-bottom: 24px; color: var(--text-secondary); font-size: 14px;" id="wizard-results-summary"></p>
+            
+            <div id="results-checklist-container">
+              <!-- Target Checklist Render -->
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- View 5: Notes & Bookmarks Portfolio -->
+      <section class="viewport" id="view-portfolio">
+        <div class="portfolio-layout">
+          <!-- Left list: tracked list -->
+          <div class="portfolio-list-card" id="portfolio-list">
+            <!-- Rendered list -->
+          </div>
+          
+          <!-- Right editor: checklist and notepad -->
+          <div class="portfolio-editor-card" id="portfolio-editor">
+            <!-- Empty state default -->
+            <div class="portfolio-empty" id="portfolio-empty-state">
+              <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
+              <h3>No Bookmarked Regulations</h3>
+              <p style="font-size: 13px; margin-top: 8px;">Navigate to the Regulatory Grid or Radar and bookmark a regulation to track notes and compliance actions.</p>
+            </div>
+            
+            <!-- Editor state -->
+            <div id="portfolio-editor-state" style="display: none; height: 100%; flex-direction: column;">
+              <div class="portfolio-editor-header">
+                <div class="portfolio-editor-title" id="portfolio-reg-title">DORA</div>
+                <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;" id="portfolio-reg-fullname">Digital Operational Resilience Act</div>
+              </div>
+              
+              <div class="portfolio-tracker-group">
+                <div class="portfolio-status-title">Assessed Firm Status</div>
+                <div class="status-badge-picker">
+                  <button class="status-picker-option" data-status="Non-Compliant">Non-Compliant</button>
+                  <button class="status-picker-option" data-status="In-Progress">In-Progress</button>
+                  <button class="status-picker-option" data-status="Compliant">Compliant</button>
+                </div>
+              </div>
+              
+              <div style="display: flex; flex-direction: column; flex-grow: 1;">
+                <div class="portfolio-status-title">Compliance Notes & Audits Log</div>
+                <textarea class="portfolio-notes-area" id="portfolio-notes-text" placeholder="Record gaps, policy versions, or appointed compliance officers for this directive..."></textarea>
+                <button class="portfolio-notes-save-btn" id="portfolio-save-btn">Save Notepad Details</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+    </main>
+    
+    <!-- Detail Drawer sliding from right -->
+    <div class="side-drawer" id="side-drawer">
+      <button class="drawer-close" id="drawer-close-btn">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      
+      <div class="drawer-header">
+        <div class="drawer-header-meta">
+          <span class="badge badge-sector" id="drawer-badge-sector">Banking Operations</span>
+          <span class="badge" id="drawer-badge-impact">Critical</span>
+          <span class="badge" id="drawer-badge-status">Active</span>
+        </div>
+        <h2 class="drawer-title" id="drawer-reg-title">Basel IV</h2>
+        <div class="drawer-sub" id="drawer-reg-fullname">Basel Capital Accord Framework</div>
+      </div>
+      
+      <div class="drawer-section">
+        <div class="drawer-section-title">Summary</div>
+        <p class="drawer-desc" id="drawer-reg-summary"></p>
+      </div>
+      
+      <div class="drawer-section">
+        <div class="drawer-section-title">Detailed Framework Scope</div>
+        <p class="drawer-desc" id="drawer-reg-desc"></p>
+      </div>
+      
+      <div class="drawer-section">
+        <div class="drawer-section-title">Core Directives & Rules</div>
+        <ul class="drawer-list" id="drawer-requirements-list">
+          <!-- Rendered via JS -->
+        </ul>
+      </div>
+      
+      <div class="drawer-action-btn-group">
+        <button class="btn btn-primary" id="drawer-btn-bookmark">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><polyline points="19 21 12 16 5 21 5 3 19 3"/></svg>
+          Add to Portfolio
+        </button>
+        <button class="btn btn-secondary" id="drawer-btn-close">Close Details</button>
+      </div>
+    </div>
+    
+  </div>
+
+  <!-- JavaScript App Logic -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>
