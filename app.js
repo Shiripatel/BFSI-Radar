@@ -23,6 +23,7 @@ let state = {
     bookmarks: JSON.parse(localStorage.getItem('bfsi-radar-bookmarks')) || [],
     regulationStatuses: JSON.parse(localStorage.getItem('bfsi-radar-statuses')) || {},
     regulationNotes: JSON.parse(localStorage.getItem('bfsi-radar-notes')) || {},
+    frameworkSteps: JSON.parse(localStorage.getItem('bfsi-radar-framework-steps')) || {},
     assessmentStep: 0,
     assessmentAnswers: {},
     assessmentCompletions: JSON.parse(localStorage.getItem('bfsi-radar-assessment-completions')) || {},
@@ -170,6 +171,7 @@ function switchView(viewName) {
     // Render sub-elements specific to loading views
     if (viewName === 'dashboard') {
         renderDashboardCharts();
+        renderSubsectorsExplorer();
         renderRadar(DOM.miniRadar, 300, true);
     } else if (viewName === 'radar') {
         renderRadar(DOM.fullRadar, 300, false);
@@ -177,6 +179,8 @@ function switchView(viewName) {
         renderTable();
     } else if (viewName === 'portfolio') {
         renderPortfolio();
+    } else if (viewName === 'framework') {
+        renderFramework();
     }
 }
 
@@ -1016,6 +1020,151 @@ function selectPortfolioStatusOption(status) {
     renderPortfolio();
 }
 
+// --- Subsector Compliance Explorer ---
+function renderSubsectorsExplorer() {
+    const explorerContainer = document.getElementById('subsectors-explorer-cards');
+    if (!explorerContainer) return;
+
+    explorerContainer.innerHTML = sectors.map(sec => {
+        const secRegs = regulations.filter(r => r.sectorId === sec.id);
+        const bookmarkedInSec = secRegs.filter(r => state.bookmarks.includes(r.id));
+
+        let progressPct = 0;
+        if (bookmarkedInSec.length > 0) {
+            let scores = 0;
+            bookmarkedInSec.forEach(r => {
+                const status = state.regulationStatuses[r.id] || 'Non-Compliant';
+                if (status === 'Compliant') scores += 100;
+                else if (status === 'In-Progress') scores += 50;
+            });
+            progressPct = Math.round(scores / bookmarkedInSec.length);
+        }
+
+        const regTags = secRegs.slice(0, 3).map(r => `<span class="subsector-card-reg-tag">${r.name}</span>`).join('');
+
+        let monitorMetricLabel = "Daily Transaction Audit";
+        let monitorMetricVal = "100% OK";
+
+        if (sec.id === 'banking') {
+            monitorMetricLabel = "CET1 Capital Ratio";
+            monitorMetricVal = "14.2% (Req: 11.5%)";
+        } else if (sec.id === 'payments') {
+            monitorMetricLabel = "Active Frauds Spotter";
+            monitorMetricVal = "0.01% (Safe <1%)";
+        } else if (sec.id === 'wealth') {
+            monitorMetricLabel = "Suitability Audits Checks";
+            monitorMetricVal = "Compliant";
+        } else if (sec.id === 'insurance') {
+            monitorMetricLabel = "Solvency Ratio (SCR)";
+            monitorMetricVal = "215% (Req: 200%)";
+        } else if (sec.id === 'security') {
+            monitorMetricLabel = "DORA Vulnerability Scans";
+            monitorMetricVal = "Done (Daily)";
+        }
+
+        return `
+            <div class="subsector-explorer-card" data-sector="${sec.id}">
+                <div>
+                    <div class="subsector-card-header">
+                        <span class="subsector-card-name">${sec.name}</span>
+                        <span class="subsector-card-progress">${progressPct}% Comp</span>
+                    </div>
+                    <div class="subsector-card-regs">
+                        ${regTags}
+                    </div>
+                </div>
+                <div class="subsector-card-monitor">
+                    <div class="subsector-card-monitor-meta">
+                        <div class="subsector-monitor-title">Telemetry Stream</div>
+                        <div class="subsector-monitor-metric">
+                            <span>${monitorMetricLabel}</span>
+                            <span class="subsector-monitor-val subsector-monitor-status-ok">${monitorMetricVal}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    explorerContainer.querySelectorAll('.subsector-explorer-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const sectorId = card.getAttribute('data-sector');
+            state.filters.sector = sectorId;
+            if (DOM.filterSector) {
+                DOM.filterSector.value = sectorId;
+            }
+            switchView('database');
+        });
+    });
+}
+
+// --- 5-Stage Compliance Framework Stepper ---
+function renderFramework() {
+    autoCalculateFrameworkSteps();
+
+    const checkboxes = document.querySelectorAll('.stage-action-checkbox');
+    checkboxes.forEach(cb => {
+        const id = cb.id;
+        cb.checked = !!state.frameworkSteps[id];
+
+        cb.onchange = (e) => {
+            if (e.target.checked) {
+                state.frameworkSteps[id] = true;
+            } else {
+                delete state.frameworkSteps[id];
+            }
+            localStorage.setItem('bfsi-radar-framework-steps', JSON.stringify(state.frameworkSteps));
+            renderFramework();
+        };
+    });
+
+    const stages = [1, 2, 3, 4, 5];
+    stages.forEach(stageNum => {
+        const card = document.getElementById(`stage-${stageNum}-card`);
+        const statusEl = document.getElementById(`stage-${stageNum}-status`);
+        if (!card || !statusEl) return;
+
+        const stageCheckboxes = Array.from(document.querySelectorAll(`.stage-action-checkbox[data-stage="${stageNum}"]`));
+        const total = stageCheckboxes.length;
+        const checkedCount = stageCheckboxes.filter(cb => cb.checked).length;
+
+        card.classList.remove('completed', 'in-progress');
+        if (checkedCount === 0) {
+            statusEl.textContent = "NOT STARTED";
+            statusEl.className = "badge badge-status-proposed";
+        } else if (checkedCount < total) {
+            statusEl.textContent = `IN PROGRESS (${checkedCount}/${total})`;
+            statusEl.className = "badge badge-status-upcoming";
+            card.classList.add('in-progress');
+        } else {
+            statusEl.textContent = "COMPLETED";
+            statusEl.className = "badge badge-status-active";
+            card.classList.add('completed');
+        }
+    });
+}
+
+function autoCalculateFrameworkSteps() {
+    const hasAnswers = Object.keys(state.assessmentAnswers).length > 0;
+    if (hasAnswers) {
+        state.frameworkSteps['fw-step-1'] = true;
+    }
+
+    if (state.filters.jurisdiction !== 'all' || hasAnswers) {
+        state.frameworkSteps['fw-step-2'] = true;
+    }
+
+    if (state.bookmarks.length > 0) {
+        state.frameworkSteps['fw-step-3'] = true;
+    }
+
+    if (state.selectedPortfolioRegId) {
+        state.frameworkSteps['fw-step-4'] = true;
+    }
+
+    localStorage.setItem('bfsi-radar-framework-steps', JSON.stringify(state.frameworkSteps));
+}
+
 // --- Core Event Listeners Bindings ---
 function setupEventListeners() {
     // Sidebar router links
@@ -1125,6 +1274,26 @@ function setupEventListeners() {
             selectPortfolioStatusOption(status);
         });
     });
+
+    // Framework links and actions listeners
+    document.querySelectorAll('.fwd-link-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const target = btn.getAttribute('data-target');
+            if (target) {
+                switchView(target);
+            }
+        });
+    });
+
+    const certifyBtn = document.getElementById('certify-sign-btn');
+    if (certifyBtn) {
+        certifyBtn.addEventListener('click', () => {
+            state.frameworkSteps['fw-step-10'] = true;
+            state.frameworkSteps['fw-step-11'] = true;
+            localStorage.setItem('bfsi-radar-framework-steps', JSON.stringify(state.frameworkSteps));
+            switchView('portfolio');
+        });
+    }
 
     // Set initial wizard steps loading
     renderWizardStep();

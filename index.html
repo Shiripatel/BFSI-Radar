@@ -40,6 +40,16 @@
           </div>
         </li>
         <li>
+          <div class="nav-item" data-target="framework">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+            Compliance Framework
+          </div>
+        </li>
+        <li>
           <div class="nav-item" data-target="radar">
             <svg viewBox="0 0 24 24">
               <circle cx="12" cy="12" r="10" />
@@ -227,6 +237,17 @@
             <div class="feed-list" id="dashboard-news-feed">
               <!-- Rendered via JS -->
             </div>
+          </div>
+        </div>
+
+        <!-- Subsector Compliance Explorer -->
+        <div class="panel-card" style="margin-top: 32px; margin-bottom: 0;">
+          <div class="panel-title">
+            BFSI Subsector Compliance Explorer
+            <span class="view-sub">Active continuous monitoring status & controls</span>
+          </div>
+          <div class="subsectors-explorer-grid" id="subsectors-explorer-cards">
+            <!-- Dynamically populated via JS -->
           </div>
         </div>
       </section>
@@ -428,6 +449,159 @@
                 <button class="portfolio-notes-save-btn" id="portfolio-save-btn">Save Notepad Details</button>
               </div>
             </div>
+          </div>
+      </section>
+
+      <!-- View Framework: 5-Stage Compliance Framework Stepper -->
+      <section class="viewport" id="view-framework">
+        <div class="panel-card" style="margin-bottom: 32px;">
+          <div class="panel-title">
+            BFSI Compliance Lifecycle Framework
+            <span class="view-sub">Operational workflow roadmap to governance certification</span>
+          </div>
+          <p
+            style="margin-bottom: 24px; color: var(--text-secondary); font-size: 14px; line-height: 1.6; max-width: 800px;">
+            A unified, structured process to map scopes, audit control gaps, execute remediations, monitor logs, and
+            sign off compliance status. Progress is updated dynamically based on your workspace activity.
+          </p>
+
+          <div class="framework-stepper">
+            <!-- Stage 1 -->
+            <div class="framework-stage-card" id="stage-1-card">
+              <div class="stage-stage-number">01</div>
+              <div class="stage-content">
+                <div class="stage-header-line">
+                  <h3 class="stage-title">Scan & Map Bounds</h3>
+                  <span class="badge badge-status-proposed" id="stage-1-status">NOT STARTED</span>
+                </div>
+                <p class="stage-desc">Establish corporate scope parameters, listing applicable jurisdictions and entity
+                  sectors.</p>
+                <div class="stage-actions-list">
+                  <div class="stage-action-item">
+                    <input type="checkbox" class="stage-action-checkbox" id="fw-step-1" data-stage="1">
+                    <label for="fw-step-1">Run global firm self-assessment survey</label>
+                  </div>
+                  <div class="stage-action-item">
+                    <input type="checkbox" class="stage-action-checkbox" id="fw-step-2" data-stage="1">
+                    <label for="fw-step-2">Define primary jurisdictions (US, EU, UK, APAC)</label>
+                  </div>
+                </div>
+                <div class="stage-links">
+                  <button class="btn btn-secondary fwd-link-btn" data-target="assessment">Go to Self-Assessment
+                    &rarr;</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stage 2 -->
+            <div class="framework-stage-card" id="stage-2-card">
+              <div class="stage-stage-number">02</div>
+              <div class="stage-content">
+                <div class="stage-header-line">
+                  <h3 class="stage-title">Audit Compliance Gaps</h3>
+                  <span class="badge badge-status-proposed" id="stage-2-status">NOT STARTED</span>
+                </div>
+                <p class="stage-desc">Vet specific regulatory requirements on the grid and identify operational gaps.
+                </p>
+                <div class="stage-actions-list">
+                  <div class="stage-action-item">
+                    <input type="checkbox" class="stage-action-checkbox" id="fw-step-3" data-stage="2">
+                    <label for="fw-step-3">Bookmark all target directives to corporate portfolio</label>
+                  </div>
+                  <div class="stage-action-item">
+                    <input type="checkbox" class="stage-action-checkbox" id="fw-step-4" data-stage="2">
+                    <label for="fw-step-4">Vet dynamic requirements list in Details Drawers</label>
+                  </div>
+                </div>
+                <div class="stage-links">
+                  <button class="btn btn-secondary fwd-link-btn" data-target="database">Open Regulatory Grid
+                    &rarr;</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stage 3 -->
+            <div class="framework-stage-card" id="stage-3-card">
+              <div class="stage-stage-number">03</div>
+              <div class="stage-content">
+                <div class="stage-header-line">
+                  <h3 class="stage-title">Remediation Playbook</h3>
+                  <span class="badge badge-status-proposed" id="stage-3-status">NOT STARTED</span>
+                </div>
+                <p class="stage-desc">Implement concrete controls and playbooks to close critical assessment gaps.</p>
+                <div class="stage-actions-list">
+                  <div class="stage-action-item">
+                    <input type="checkbox" class="stage-action-checkbox" id="fw-step-5" data-stage="3">
+                    <label for="fw-step-5">Appoint qualified CISO & Compliance Officers</label>
+                  </div>
+                  <div class="stage-action-item">
+                    <input type="checkbox" class="stage-action-checkbox" id="fw-step-6" data-stage="3">
+                    <label for="fw-step-6">Establish data encryption rotators and system backups</label>
+                  </div>
+                  <div class="stage-action-item">
+                    <input type="checkbox" class="stage-action-checkbox" id="fw-step-7" data-stage="3">
+                    <label for="fw-step-7">Test business continuity plans (BCP) annually</label>
+                  </div>
+                </div>
+                <div class="stage-links">
+                  <button class="btn btn-secondary fwd-link-btn" data-target="portfolio">Open Portfolio Manager
+                    &rarr;</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stage 4 -->
+            <div class="framework-stage-card" id="stage-4-card">
+              <div class="stage-stage-number">04</div>
+              <div class="stage-content">
+                <div class="stage-header-line">
+                  <h3 class="stage-title">Continuous Monitoring</h3>
+                  <span class="badge badge-status-proposed" id="stage-4-status">NOT STARTED</span>
+                </div>
+                <p class="stage-desc">Observe automated checks, security alerts, and regulatory feed updates.</p>
+                <div class="stage-actions-list">
+                  <div class="stage-action-item">
+                    <input type="checkbox" class="stage-action-checkbox" id="fw-step-8" data-stage="4">
+                    <label for="fw-step-8">Monitor daily subsector fraud and liquidity updates</label>
+                  </div>
+                  <div class="stage-action-item">
+                    <input type="checkbox" class="stage-action-checkbox" id="fw-step-9" data-stage="4">
+                    <label for="fw-step-9">Review incoming regulatory bulletins feed weekly</label>
+                  </div>
+                </div>
+                <div class="stage-links">
+                  <button class="btn btn-secondary fwd-link-btn" data-target="dashboard">Go to Home Dashboard
+                    &rarr;</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stage 5 -->
+            <div class="framework-stage-card" id="stage-5-card">
+              <div class="stage-stage-number">05</div>
+              <div class="stage-content">
+                <div class="stage-header-line">
+                  <h3 class="stage-title">Governance Certification</h3>
+                  <span class="badge badge-status-proposed" id="stage-5-status">NOT STARTED</span>
+                </div>
+                <p class="stage-desc">Mark final compliance verification, finalize notes, and sign audit trails.</p>
+                <div class="stage-actions-list">
+                  <div class="stage-action-item">
+                    <input type="checkbox" class="stage-action-checkbox" id="fw-step-10" data-stage="5">
+                    <label for="fw-step-10">Document audit outcomes for all bookmarked regulations</label>
+                  </div>
+                  <div class="stage-action-item">
+                    <input type="checkbox" class="stage-action-checkbox" id="fw-step-11" data-stage="5">
+                    <label for="fw-step-11">Export finished status log to JSON/CSV for regulators</label>
+                  </div>
+                </div>
+                <div class="stage-links">
+                  <button class="btn btn-primary fwd-link-btn" data-target="portfolio" id="certify-sign-btn">Sign Audit
+                    Portfolio &rarr;</button>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
