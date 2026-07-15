@@ -4,18 +4,18 @@
  */
 
 export const sectors = [
-    { id: 'banking', name: 'Banking Operations', color: '#3b82f6', angleRange: [0, 72] },
-    { id: 'payments', name: 'Payments & Fintech', color: '#10b981', angleRange: [72, 144] },
-    { id: 'wealth', name: 'Asset & Wealth Management', color: '#f59e0b', angleRange: [144, 216] },
-    { id: 'insurance', name: 'Insurance (Prudential)', color: '#ec4899', angleRange: [216, 288] },
-    { id: 'security', name: 'Security & Privacy', color: '#8b5cf6', angleRange: [288, 360] }
+    { id: 'banking', name: 'Banking Operations', color: '#5db8a6', angleRange: [0, 72] },
+    { id: 'payments', name: 'Payments & Fintech', color: '#cc785c', angleRange: [72, 144] },
+    { id: 'wealth', name: 'Asset & Wealth Management', color: '#e8a55a', angleRange: [144, 216] },
+    { id: 'insurance', name: 'Insurance (Prudential)', color: '#8e8b82', angleRange: [216, 288] },
+    { id: 'security', name: 'Security & Privacy', color: '#141413', angleRange: [288, 360] }
 ];
 
 export const impacts = {
-    'Critical': { color: '#ef4444', radiusPercent: 0.25 },
-    'High': { color: '#f97316', radiusPercent: 0.50 },
-    'Medium': { color: '#eab308', radiusPercent: 0.70 },
-    'Low': { color: '#10b981', radiusPercent: 0.90 }
+    'Critical': { color: '#c64545', radiusPercent: 0.25 },
+    'High': { color: '#e8a55a', radiusPercent: 0.50 },
+    'Medium': { color: '#d4a017', radiusPercent: 0.70 },
+    'Low': { color: '#5db872', radiusPercent: 0.90 }
 };
 
 export const regulations = [
