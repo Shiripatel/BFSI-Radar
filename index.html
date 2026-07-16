@@ -61,18 +61,6 @@
           </div>
         </li>
         <li>
-          <div class="nav-item" data-target="database">
-            <svg viewBox="0 0 24 24">
-              <rect x="3" y="3" width="18" height="18" rx="2" />
-              <line x1="3" y1="9" x2="21" y2="9" />
-              <line x1="3" y1="15" x2="21" y2="15" />
-              <line x1="9" y1="3" x2="9" y2="21" />
-              <line x1="15" y1="3" x2="15" y2="21" />
-            </svg>
-            Regulatory Grid
-          </div>
-        </li>
-        <li>
           <div class="nav-item" data-target="assessment">
             <svg viewBox="0 0 24 24">
               <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
@@ -205,76 +193,8 @@
           </div>
         </div>
 
-        <div class="dashboard-layout">
-          <!-- Left side: mini radar -->
-          <div>
-            <div class="panel-card" style="position: relative;">
-              <div class="panel-title">
-                Interactive Radar Workspace
-                <span class="view-sub" style="cursor: pointer; color: var(--accent-banking);"
-                  id="dashboard-to-radar-link">View Full Screen →</span>
-              </div>
-              <div class="radar-render-container">
-                <svg id="dashboard-mini-radar" class="radar-interactive" viewBox="0 0 600 600"></svg>
-              </div>
-            </div>
-
-            <div class="micro-chart-container">
-              <div class="chart-bar-card" id="chart-subsector">
-                <div class="chart-bar-header">Regulations by Subsector</div>
-                <div class="chart-bars-list" id="subsector-bars"></div>
-              </div>
-              <div class="chart-bar-card" id="chart-impact">
-                <div class="chart-bar-header">Regulations by Impact Level</div>
-                <div class="chart-bars-list" id="impact-bars"></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Right side: Recent Feed -->
-          <div class="panel-card" style="height: 100%; margin-bottom: 0;">
-            <div class="panel-title">Recent Regulatory Bulletins</div>
-            <div class="feed-list" id="dashboard-news-feed">
-              <!-- Rendered via JS -->
-            </div>
-          </div>
-        </div>
-
-        <!-- Subsector Compliance Explorer -->
-        <div class="panel-card" style="margin-top: 32px; margin-bottom: 0;">
-          <div class="panel-title">
-            BFSI Subsector Compliance Explorer
-            <span class="view-sub">Active continuous monitoring status & controls</span>
-          </div>
-          <div class="subsectors-explorer-grid" id="subsectors-explorer-cards">
-            <!-- Dynamically populated via JS -->
-          </div>
-        </div>
-      </section>
-
-      <!-- View 2: Full Radar Visualizer -->
-      <section class="viewport" id="view-radar">
-        <div class="panel-card" style="margin-bottom: 0;">
-          <div class="panel-title">
-            Global BFSI Compliance Radar Screen
-            <div style="font-size: 13px; font-weight: 500; display: flex; gap: 16px; align-items: center;">
-              <span>Hover plots for quick meta. Click dots to expand requirement items.</span>
-            </div>
-          </div>
-
-          <div class="radar-render-container" style="padding: 20px 0;">
-            <svg id="full-radar-canvas" class="radar-interactive" viewBox="0 0 600 600">
-              <!-- Rendered via JS -->
-            </svg>
-            <div class="radar-tooltip" id="radar-tooltip-el"></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- View 3: Regulatory Grid -->
-      <section class="viewport" id="view-database">
-        <div class="filter-bar">
-
+        <!-- Table layout filters directly in home dashboard -->
+        <div class="filter-bar" style="margin-top: 24px; margin-bottom: 20px;">
           <div class="filter-select-group">
             <span class="filter-label">Sector Domain</span>
             <select class="select-custom" id="filter-sector">
@@ -343,7 +263,9 @@
           </div>
         </div>
 
-        <div class="grid-wrapper">
+        <!-- Scrollable full compliance table -->
+        <div class="grid-wrapper"
+          style="max-height: 480px; overflow-y: auto; margin-bottom: 24px; border: 1px solid var(--border-glass); border-radius: 8px;">
           <table class="table-custom" id="regulations-table">
             <thead>
               <tr>
@@ -361,7 +283,50 @@
             </tbody>
           </table>
         </div>
+
+        <!-- Telemetry & Subsectors Grid Side-by-Side -->
+        <div class="dashboard-bottom-grid" style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+          <!-- Subsector Compliance Explorer -->
+          <div class="panel-card" style="margin-bottom: 0;">
+            <div class="panel-title">
+              BFSI Subsector Compliance Explorer
+              <span class="view-sub">Active continuous monitoring status & controls</span>
+            </div>
+            <div class="subsectors-explorer-grid" id="subsectors-explorer-cards">
+              <!-- Dynamically populated via JS -->
+            </div>
+          </div>
+
+          <!-- Bulletins Feed -->
+          <div class="panel-card" style="margin-bottom: 0;">
+            <div class="panel-title" style="margin-bottom: 16px;">Recent Bulletins</div>
+            <div class="feed-list" id="dashboard-news-feed" style="max-height: 240px; overflow-y: auto; gap: 12px;">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </div>
       </section>
+
+      <!-- View 2: Full Radar Visualizer -->
+      <section class="viewport" id="view-radar">
+        <div class="panel-card" style="margin-bottom: 0;">
+          <div class="panel-title">
+            Global BFSI Compliance Radar Screen
+            <div style="font-size: 13px; font-weight: 500; display: flex; gap: 16px; align-items: center;">
+              <span>Hover plots for quick meta. Click dots to expand requirement items.</span>
+            </div>
+          </div>
+
+          <div class="radar-render-container" style="padding: 20px 0;">
+            <svg id="full-radar-canvas" class="radar-interactive" viewBox="0 0 600 600">
+              <!-- Rendered via JS -->
+            </svg>
+            <div class="radar-tooltip" id="radar-tooltip-el"></div>
+          </div>
+        </div>
+      </section>
+
+
 
       <!-- View 4: Self-Assessment Wizard -->
       <section class="viewport" id="view-assessment">

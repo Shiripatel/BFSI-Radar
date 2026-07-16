@@ -123,7 +123,6 @@ function toggleTheme() {
     updateThemeButtonLabel(newTheme);
 
     // Re-render radars to pick up CSS-variable colors correctly if drawing paths dynamically
-    renderRadar(DOM.miniRadar, 300, true);
     renderRadar(DOM.fullRadar, 300, false);
 }
 
@@ -145,6 +144,9 @@ function updateThemeButtonLabel(theme) {
 
 // --- Navigation ---
 function switchView(viewName) {
+    if (viewName === 'database') {
+        viewName = 'dashboard';
+    }
     state.activeView = viewName;
 
     // Update sidebar active link UI
@@ -170,13 +172,10 @@ function switchView(viewName) {
 
     // Render sub-elements specific to loading views
     if (viewName === 'dashboard') {
-        renderDashboardCharts();
+        renderTable();
         renderSubsectorsExplorer();
-        renderRadar(DOM.miniRadar, 300, true);
     } else if (viewName === 'radar') {
         renderRadar(DOM.fullRadar, 300, false);
-    } else if (viewName === 'database') {
-        renderTable();
     } else if (viewName === 'portfolio') {
         renderPortfolio();
     } else if (viewName === 'framework') {
@@ -745,12 +744,11 @@ function toggleBookmark(regId) {
     updateGlobalStats();
 
     // Re-sync active view renders
-    if (state.activeView === 'database') renderTable();
-    if (state.activeView === 'portfolio') renderPortfolio();
-    if (state.activeView === 'dashboard') {
-        renderDashboardCharts();
-        renderRadar(DOM.miniRadar, 300, true);
+    if (state.activeView === 'dashboard' || state.activeView === 'database') {
+        renderTable();
+        renderSubsectorsExplorer();
     }
+    if (state.activeView === 'portfolio') renderPortfolio();
 }
 
 // --- Interactive Wizard: Self Assessment Tool ---
